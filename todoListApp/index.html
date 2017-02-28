@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Todo List App</title>
+
+    <!-- bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- app CSS -->
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+
+</head>
+
+<body ng-app="todoListApp">
+
+    <div ng-controller="mainCtrl" class="list">
+
+        <div class="add">
+            <a href="" ng-click="addTodo(); editing = true; newTodo = true;">+ Add New Todo</a>
+        </div>
+
+        <div
+            ng-repeat="todo in todos | orderBy: 'completed'"
+            ng-init="todo.completed = false;"
+            ng-class="{'editing-item': editing, 'edited': todo.edited, 'completed': todo.completed}"
+            class="item">
+
+            <input
+                ng-model="todo.completed"
+                type="checkbox">
+            <span
+                ng-click="todo.completed = !todo.completed">
+            </span>
+            <label
+                ng-click="editing = true; newTodo = false;"
+                ng-hide="editing"
+                >{{ todo.name }}
+            </label>
+            <input
+                ng-change="todo.edited = !newTodo;"
+                ng-show="editing"
+                focus-input="editing"
+                ng-model="todo.name"
+                ng-blur="editing = false; deleteIfEmpty(todo, $index);"
+                class="editing-label"
+                type="text">
+
+            <div class="actions">
+                <a ng-click="editing = !editing" ng-class="{'disabled': editing}" role="button" class="btn btn-primary" href="">Edit</a>
+                <a ng-click="saveTodo(todo)" role="button" class="btn btn-success" href="">Save</a>
+                <a ng-click="deleteTodo(todo, $index)" role="button" class="btn btn-danger" href="">Delete</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- angular -->
+    <script src="vendor/angular.min.js" type="text/javascript"></script>
+
+    <!-- bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- app JS files -->
+    <script src="scripts/app.js" type="text/javascript"></script>
+    <script src="scripts/controllers/main.js" type="text/javascript"></script>
+    <script src="scripts/services/data.js" type="text/javascript"></script>
+
+
+</body>
+</html>
